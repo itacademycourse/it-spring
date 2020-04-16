@@ -9,4 +9,7 @@
         Material published {{ material.publish }} by {{ material.author }}
     </p>
     {{ material.body|linebreaks }}
+    <p>
+        <a href="{% url "lesson:share_material" material.id %}">Share this post</a>
+    </p>
 {% endblock %}
