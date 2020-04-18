@@ -6,13 +6,20 @@ from . import forms
 from django.contrib.auth.models import User
 # Create your views here.
 
+from django.views.generic import ListView
 
-def all_materials(request):
-    # material_list = models.Material.objects.all()
-    material_list = models.Material.theory.all()
-    return render(request,
-                  'materials/all_materials.html',
-                  {"materials": material_list})
+# def all_materials(request):
+#     # material_list = models.Material.objects.all()
+#     material_list = models.Material.theory.all()
+#     return render(request,
+#                   'materials/all_materials.html',
+#                   {"materials": material_list})
+
+
+class MaterialListView(ListView):
+    queryset = models.Material.objects.all()
+    context_object_name = 'materials'
+    template_name = 'materials/all_materials.html'
 
 
 def material_details(request, year, month, day, slug):
@@ -55,6 +62,7 @@ def share_material(request, material_id):
     return render(request,
                   'materials/share.html',
                   {'material': material, 'form': form, 'sent':sent})
+
 
 def create_form(request):
     if request.method == 'POST':

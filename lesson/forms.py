@@ -1,6 +1,7 @@
 from django import forms
 from . import models
 
+
 class EmailMaterialForm(forms.Form):
     name = forms.CharField(max_length=25)
     my_email = forms.EmailField()

@@ -12,7 +12,7 @@
         <p>
             Material published {{ material.publish }} by {{ material.author }}
         </p>
-        {{ material.body|truncatewords:5|linebreaks }}
+        {{ material.body|truncatewords_html:5|linebreaks }}
     {% endfor %}
     <a href="{% url "lesson:create_form" %}"> create new</a>
 {% endblock %}
