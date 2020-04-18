@@ -2,21 +2,26 @@ from django.shortcuts import render, get_object_or_404
 from django.core.mail import send_mail
 from . import models
 from . import forms
-
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 from django.views.generic import ListView
 
-# def all_materials(request):
-#     # material_list = models.Material.objects.all()
-#     material_list = models.Material.theory.all()
-#     return render(request,
-#                   'materials/all_materials.html',
-#                   {"materials": material_list})
+
+@login_required
+def all_materials(request):
+    # material_list = models.Material.objects.all()
+    material_list = models.Material.theory.all()
+    return render(request,
+                  'materials/all_materials.html',
+                  {"materials": material_list})
 
 
-class MaterialListView(ListView):
+class MaterialListView(LoginRequiredMixin, ListView):
     queryset = models.Material.objects.all()
     context_object_name = 'materials'
     template_name = 'materials/all_materials.html'
@@ -80,3 +85,26 @@ def create_form(request):
     return render(request,
                   "materials/create.html",
                   {'form': material_form})
+
+
+def user_login(request):
+    if request.method == "POST":
+        form = forms.LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(
+                request,
+                username=cd['username'],
+                password=cd['password'],
+            )
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('Auth successfull')
+                else:
+                    HttpResponse('inactive user')
+            else:
+                return HttpResponse('BAD Credentials')
+    else:
+        form = forms.LoginForm()
+    return render(request, 'login.html', {'form': form})
