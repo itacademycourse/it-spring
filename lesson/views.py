@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 
 
-@login_required
+# @login_required
 def all_materials(request):
     # material_list = models.Material.objects.all()
     material_list = models.Material.theory.all()
@@ -21,10 +21,10 @@ def all_materials(request):
                   {"materials": material_list})
 
 
-class MaterialListView(LoginRequiredMixin, ListView):
-    queryset = models.Material.objects.all()
-    context_object_name = 'materials'
-    template_name = 'materials/all_materials.html'
+# class MaterialListView(LoginRequiredMixin, ListView):
+#     queryset = models.Material.objects.all()
+#     context_object_name = 'materials'
+#     template_name = 'materials/all_materials.html'
 
 
 def material_details(request, year, month, day, slug):
