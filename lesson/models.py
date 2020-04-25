@@ -32,9 +32,8 @@ class Material(models.Model):
     objects = models.Manager()
     theory = TheoryManager()
 
-
-    # def __str__(self):
-    #     return self.title
+    def __str__(self):
+        return self.title
 
     def get_absolute_url(self):
         return reverse('lesson:material_details',
@@ -43,3 +42,12 @@ class Material(models.Model):
                              self.publish.day,
                              self.slug])
 
+
+class Comment(models.Model):
+    material = models.ForeignKey(Material,
+                                 on_delete=models.CASCADE,
+                                 related_name='comments')
+    name = models.CharField(max_length=79)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    email = models.EmailField()

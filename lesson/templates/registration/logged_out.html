@@ -11,6 +11,5 @@
         {{ form.as_p }}
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}">
-        <input type="submit" value="Log-in">
     </form>
 {% endblock %}
