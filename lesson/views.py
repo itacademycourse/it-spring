@@ -143,3 +143,22 @@ def register(request):
     else:
         user_form = forms.UserRegistrationForm()
     return render(request, 'reg.html', {'form': user_form})
+
+
+def edit_user(request):
+    if request.method == "POST":
+        user_form = forms.UserEditForm(instance=request.user,
+                                       data=request.POST)
+        profile_form = forms.ProfileEditForm(instance=request.user.profile,
+                                             data=request.POST,
+                                             files=request.FILES)
+        user_form.save()
+        profile_form.save()
+        return render(request, 'profile.html', {'user': request.user})
+    else:
+        user_form = forms.UserEditForm(instance=request.user)
+        profile_form = forms.ProfileEditForm(instance=request.user.profile)
+    return render(request,
+                  'edit.html',
+                  {'user_form': user_form,
+                   'profile_form': profile_form})
