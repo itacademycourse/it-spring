@@ -162,3 +162,21 @@ def edit_user(request):
                   'edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
+
+
+def all_lessons(request):
+    # material_list = models.Material.objects.all()
+    lessons = models.Lesson.objects.all()
+    return render(request,
+                  'lessons/list.html',
+                  {"lessons": lessons})
+
+
+def lesson_details(request, slug):
+    lesson = get_object_or_404(models.Lesson, slug=slug)
+    lessons = models.Lesson.objects.all()
+
+    return render(request,
+                  'lessons/detail.html',
+                  {'lesson': lesson,
+                   'lessons': lessons})

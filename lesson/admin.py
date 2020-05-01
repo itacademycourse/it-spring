@@ -5,6 +5,8 @@ from . import models
 
 admin.site.register(models.Comment)
 admin.site.register(models.Profile)
+# admin.site.register(models.Lesson)
+
 
 @admin.register(models.Material)
 class MaterialAdmin(admin.ModelAdmin):
@@ -14,4 +16,9 @@ class MaterialAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title', )}
     date_hierarchy = 'publish'
     ordering = ('material_type', 'publish')
+
+
+@admin.register(models.Lesson)
+class LessonAdmin(admin.ModelAdmin):
+    pass
 
